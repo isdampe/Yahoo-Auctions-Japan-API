@@ -150,9 +150,84 @@ class Api {
 	): array {
 
 		//Build the query.
+		$query_url = $this->build_get_query_url('categoryLeaf', array(
+			'category' => $category,
+			'page' => $page,
+			'sort' => $sort,
+			'order' => $order,
+			'store' => $auction_type,
+			'aucminprice' => $min_auction_price,
+			'aucmaxprice' => $max_auction_price,
+			'aucmin_bidorbuy_price' => $min_buyout_price,
+			'aucmin_bidorbuy_price' => $max_buyout_price,
+			'easypayment' => $easy_payment,
+			'new' => $new_items,
+			'freeshipping' => $free_shipping,
+			'buynow' => $has_buyout_price,
+			'item_status' => $item_condition
+		));
 
-		return array();
+		return $this->get_request( $query_url );
 
+	}
+
+	/**
+	 * Fetches and returns a list of products being sold by a seller
+	 * @param {int} $seller_id - The seller's ID
+	 * @param {int} $page - The page number
+	 * @param {string} $sort - The sort column for ordering [YAHOO_SORT_END_TIME|YAHOO_SORT_PRICE|...]
+	 * @param {string} $order - The order by column [YAHOO_ORDER_ASC|YAHOO_ORDER_DESC]
+	 * @param {string} $auction_type - The auction type [YAHOO_AUCTION_TYPE_ALL|YAHOO_AUCTION_TYPE_AUCTION|YAHOO_AUCTION_TYPE_FIXED]
+	 * @param {float} $mix_auction_price - The minimum auction price for auctions (Default: null)
+	 * @param {float} $max_auction_price - The maximum auction price for auctions (Default: null)
+	 * @param {float} $min_buyout_price - The minimum buyout price (Default: null)
+	 * @param {float} $max_buyout_price - The maximum buyout price (Default: null)
+	 * @param {bool} $easy_payment - Whether to filter results that support easy payment
+	 * @param {bool} $new_items - Whether to only show new items
+	 * @param {bool} $free_shipping - Whether to only display free shipping items
+	 * @param {bool} $has_buyout_price - Whether to only display items with a buyout price
+	 * @param {int} $item_condition - Filter by the item condition [YAHOO_ITEM_CONDITION_ALL|YAHOO_ITEM_CONDITION_NEW|YAHOO_ITEM_CONDITION_USED]
+	 * @return {array} - An array of the product data
+	 */
+	public function get_seller_product_list(
+		string $seller_id = null,
+		int $page = 0,
+		string $sort = YAHOO_SORT_END_TIME,
+		string $order = YAHOO_ORDER_ASC,
+		string $auction_type = YAHOO_AUCTION_TYPE_ALL,
+		float $min_auction_price = null,
+		float $max_auction_price = null,
+		float $min_buyout_price = null,
+		float $max_buyout_price = null,
+		bool $easy_payment = null,
+		bool $new_items = null,
+		bool $free_shipping = null,
+		bool $has_buyout_price = null,
+		int $item_condition = YAHOO_ITEM_CONDITION_ALL 
+	): array {
+
+		if ( ! $seller_id ?? null )	{
+			return array();
+		}
+		
+		$query_url = $this->build_get_query_url('sellingList', array(
+			'sellerID' => $seller_id,
+			'page' => $page,
+			'sort' => $sort,
+			'order' => $order,
+			'store' => $auction_type,
+			'aucminprice' => $min_auction_price,
+			'aucmaxprice' => $max_auction_price,
+			'aucmin_bidorbuy_price' => $min_buyout_price,
+			'aucmin_bidorbuy_price' => $max_buyout_price,
+			'easypayment' => $easy_payment,
+			'new' => $new_items,
+			'freeshipping' => $free_shipping,
+			'buynow' => $has_buyout_price,
+			'item_status' => $item_condition
+		));
+
+		return $this->get_request( $query_url );
 	}
 
 }
