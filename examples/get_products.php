@@ -5,7 +5,7 @@ require '../config/apikey.php';
 $api = new \Yahoo\Api($api_key);
 
 /*
-print_r( $api->get_product_list(
+print_r( $api->get_auction_list(
 	23336, //Category ID
 	0,		 //Page
 	YAHOO_SORT_END_TIME,  //Sort default
@@ -17,7 +17,7 @@ print_r( $api->get_product_list(
  */
 
 //Get seller product list
-print_r( $api->get_seller_product_list(
+print_r( $api->get_seller_auction_list(
 	'xo607co', //Seller ID
 	0,		 //Page
 	YAHOO_SORT_END_TIME,  //Sort default
